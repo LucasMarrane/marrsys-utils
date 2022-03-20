@@ -1,9 +1,9 @@
-import { toCamelCase, toLowerCase, toUpperCase } from "../../uteis/string";
+import { StringUtils } from '../../uteis/string';
 
 type TTextCase = 'camel' | 'lower' | 'upper';
 type TCaseConverter = Record<TTextCase, Function>;
 export class StringCaseConverter {
-     /**
+    /**
      * Create a new instance of a converter with predefined functions
      *
      *
@@ -14,7 +14,7 @@ export class StringCaseConverter {
         return new StringConverter<TObject>(object, this._caseConverter[textCase], this._caseConverter);
     }
 
-     /**
+    /**
      * Create a new instance of a converter with another transform functions
      *
      *
@@ -26,10 +26,10 @@ export class StringCaseConverter {
     }
 
     private static _caseConverter: TCaseConverter = {
-        camel: toCamelCase,
-        lower: toLowerCase,
-        upper: toUpperCase,
-    };    
+        camel: StringUtils.toCamelCase,
+        lower: StringUtils.toLowerCase,
+        upper: StringUtils.toUpperCase,
+    };
 }
 
 export class StringConverter<TObject extends object = {}> {

@@ -1,3 +1,5 @@
+import { ObjectUtils } from '../../uteis/object';
+
 type TItemMember = [string, string | Function];
 
 export class MapperGenerator {
@@ -102,11 +104,12 @@ export class Mapper<TSource extends object = {}, TDestination extends object = {
     }
 
     private _addToDestination(to: keyof TDestination, from: keyof TSource | ((item?: TSource) => any)) {
-        this._ObjectTo[to] = typeof from === 'function' ? from(this._ObjectFrom) : (this._ObjectFrom[from] as any);
+        const value = typeof from === 'function' ? from(this._ObjectFrom) : (this._ObjectFrom[from] as any);
+        this._ObjectTo = ObjectUtils.addOrEditKeyValue(this._ObjectTo, <string>to, value);
     }
 
     private _removeFromDestination(key: keyof TDestination) {
-        delete this._ObjectTo[key];
+        this._ObjectTo = ObjectUtils.removeKey<TDestination>(this._ObjectTo, key);
     }
 
     /**
